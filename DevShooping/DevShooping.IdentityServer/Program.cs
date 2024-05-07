@@ -3,6 +3,8 @@ using DevShooping.IdentityServer.Extensions;
 using DevShooping.IdentityServer.Initializer;
 using DevShooping.IdentityServer.Model;
 using DevShooping.IdentityServer.Model.Context;
+using DevShooping.IdentityServer.Services;
+using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +33,7 @@ var builderIdentity = builder.Services.AddIdentityServer(opts =>
                                         .AddAspNetIdentity<ApplicationUser>();
 
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
 
 builderIdentity.AddDeveloperSigningCredential();
 

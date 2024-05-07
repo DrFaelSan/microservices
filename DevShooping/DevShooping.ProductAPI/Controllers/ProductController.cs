@@ -1,5 +1,7 @@
 ﻿using DevShooping.ProductAPI.Data.ValueObjects;
 using DevShooping.ProductAPI.Repository;
+using DevShooping.ProductAPI.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevShooping.ProductAPI.Controllers;
@@ -8,14 +10,14 @@ namespace DevShooping.ProductAPI.Controllers;
 [ApiController]
 public class ProductController : ControllerBase
 {
-    private IProductRepository _repository;
+    private readonly IProductRepository _repository;
 
     public ProductController(IProductRepository repository)
-    {
-        _repository = repository ?? throw new ArgumentNullException(nameof(IProductRepository));
-    }
+        =>  _repository = repository
+        ?? throw new ArgumentNullException(nameof(IProductRepository));
 
     [HttpGet]
+    [Authorize]
     public async Task<ActionResult<IReadOnlyList<ProductVO>>> FindAll()
     {
         var products = await _repository.FindAll();
@@ -24,6 +26,7 @@ public class ProductController : ControllerBase
     }
     
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<ActionResult<ProductVO>> FindById(long id)
     {
         var product = await _repository.FindById(id);
@@ -32,6 +35,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<ProductVO>> Create([FromBody]ProductVO productVO)
     {
         if (productVO is null) return BadRequest();
@@ -40,6 +44,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPut]
+    [Authorize]
     public async Task<ActionResult<ProductVO>> Update([FromBody]ProductVO productVO)
     {
         if (productVO is null) return BadRequest();
@@ -48,6 +53,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = Role.Admin)]
     public async Task<ActionResult<bool>> Delete(long id)
     {
         var status = await _repository.Delete(id);

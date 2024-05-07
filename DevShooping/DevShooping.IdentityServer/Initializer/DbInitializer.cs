@@ -28,10 +28,10 @@ public class DbInitializer : IDbInitializer
     {
         if (_role.FindByNameAsync(IdentityConfiguration.Admin).Result is not null) return;
         _role.CreateAsync(new IdentityRole(IdentityConfiguration.Admin)).GetAwaiter().GetResult();
-        _role.CreateAsync(new IdentityRole(IdentityConfiguration.Client)).GetAwaiter().GetResult();
+        _role?.CreateAsync(new IdentityRole(IdentityConfiguration.Client)).GetAwaiter().GetResult();
 
         #region Admin
-        ApplicationUser admin = new ApplicationUser()
+        ApplicationUser admin = new()
         {
             UserName = "Rafael-admin",
             Email = "rafael-admin@email.com.br",
@@ -48,8 +48,7 @@ public class DbInitializer : IDbInitializer
         _user.AddToRoleAsync(admin, IdentityConfiguration.Admin)
              .GetAwaiter()
              .GetResult();
-
-        var adminClaims = _user.AddClaimsAsync(admin, new Claim[]
+        _ = _user.AddClaimsAsync(admin, new Claim[]
                                {
                                    new(JwtClaimTypes.Name, $"{admin.FirstName} {admin.LastName}"),
                                    new(JwtClaimTypes.GivenName, admin.FirstName),
@@ -59,7 +58,7 @@ public class DbInitializer : IDbInitializer
         #endregion
 
         #region Client
-        ApplicationUser client = new ApplicationUser()
+        ApplicationUser client = new()
         {
             UserName = "Rafael-client",
             Email = "rafael-client@email.com.br",
@@ -76,8 +75,7 @@ public class DbInitializer : IDbInitializer
         _user.AddToRoleAsync(client, IdentityConfiguration.Client)
              .GetAwaiter()
              .GetResult();
-
-        var clientClaims = _user.AddClaimsAsync(client, new Claim[]
+        _ = _user?.AddClaimsAsync(client, new Claim[]
                                {
                                    new(JwtClaimTypes.Name, $"{client.FirstName} {client.LastName}"),
                                    new(JwtClaimTypes.GivenName, client.FirstName),
