@@ -10,9 +10,8 @@ public class ProductService : IProductService
     private readonly HttpClient _client;
     public const string BasePath = "api/v1/product";
 
-    public ProductService(HttpClient client, string token)
+    public ProductService(HttpClient client)
     {
-        SetBearerToken(token);
         _client = client ?? throw new ArgumentNullException(nameof(client));
     }
 
