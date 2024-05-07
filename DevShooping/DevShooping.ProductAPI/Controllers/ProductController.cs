@@ -17,7 +17,6 @@ public class ProductController : ControllerBase
         ?? throw new ArgumentNullException(nameof(IProductRepository));
 
     [HttpGet]
-    [Authorize]
     public async Task<ActionResult<IReadOnlyList<ProductVO>>> FindAll()
     {
         var products = await _repository.FindAll();
