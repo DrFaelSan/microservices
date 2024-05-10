@@ -5,7 +5,7 @@ namespace DevShopping.Web.Utils;
 public static class HttpClientExtensions
 {
     private static MediaTypeHeaderValue contentType
-        = new MediaTypeHeaderValue("application/json");
+        = new("application/json");
     public static async Task<T> ReadContentAs<T>(
         this HttpResponseMessage response)
     {

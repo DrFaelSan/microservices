@@ -24,7 +24,7 @@ public class CartController : ControllerBase
     }
 
     [HttpPost("add-cart")]
-    public async Task<ActionResult<CartVO>> AddCart([FromBody] CartVO vo)
+    public async Task<ActionResult<CartVO>> AddCart(CartVO vo)
     {
         var cart = await _repository.SaveOrUpdateCartAsync(vo);
         if (cart is null) return NotFound();
@@ -32,7 +32,7 @@ public class CartController : ControllerBase
     }
 
     [HttpPut("update-cart")]
-    public async Task<ActionResult<CartVO>> UpdateCart([FromBody] CartVO vo)
+    public async Task<ActionResult<CartVO>> UpdateCart(CartVO vo)
     {
         var cart = await _repository.SaveOrUpdateCartAsync(vo);
         if (cart is null) return NotFound();
